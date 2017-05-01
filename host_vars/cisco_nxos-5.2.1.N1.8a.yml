@@ -50,6 +50,55 @@ vars:
     - feature_set_name: fabricpath
     install:
     - feature_set_name: fabricpath
+  fex:
+    101:
+      description: TestFex-101
+      number: 101
+      pinning:
+        links: 1
+        type: max-links
+    102:
+      description: TestFex-102
+      number: 102
+      pinning:
+        links: 1
+        type: max-links
+    103:
+      description: TestFex-103
+      number: 103
+      pinning:
+        links: 1
+        type: max-links
+    104:
+      description: TestFex-104
+      number: 104
+      pinning:
+        links: 1
+        type: max-links
+    105:
+      description: TestFex-105
+      number: 105
+      pinning:
+        links: 1
+        type: max-links
+    106:
+      description: TestFex-106
+      number: 106
+      pinning:
+        links: 1
+        type: max-links
+    107:
+      description: TestFex-107
+      number: 107
+      pinning:
+        links: 1
+        type: max-links
+    108:
+      description: TestFex-108
+      number: 108
+      pinning:
+        links: 1
+        type: max-links
   hostname: TestNexus5K
   ip:
     access_lists:
@@ -203,7 +252,7 @@ vars:
   tacacs_server:
     hosts:
     - encryption_type: 7
-      ip: 192.168.1.132
+      ip: 192.168.1.101
       password: AAAAAAAAAAA
     - encryption_type: 7
       ip: 192.168.1.102

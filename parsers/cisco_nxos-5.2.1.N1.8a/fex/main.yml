@@ -1,0 +1,38 @@
+- name: fex
+  tags:
+  - fex
+  matches:
+  - name: fex
+    template: fex/default.j2
+    lines:
+    - regex: '^fex (\d+)$'
+      examples:
+      - 'fex 101'
+      captures:
+      - fex_number
+      path:
+        fex:
+          "{{ fex_number }}":
+            number: "{{ fex_number }}"
+      lines:
+      - regex: '^  pinning (\S+) (\d+)$'
+        examples:
+        - '  pinning max-links 1'
+        captures:
+        - pinning_type
+        - pinning_links
+        path:
+          fex:
+            "{{ fex_number }}":
+              pinning:
+                type: "{{ pinning_type }}"
+                links: "{{ pinning_links }}"
+      - regex: '^  description (\S+)$'
+        examples:
+        -   'description "TestFex-101"'
+        captures:
+        - description
+        path:
+          fex:
+            "{{ fex_number }}":
+              description: "{{ description }}"

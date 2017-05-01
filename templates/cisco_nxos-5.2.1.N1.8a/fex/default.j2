@@ -1,0 +1,13 @@
+{% if 'fex' in vars -%}
+{% for entry in vars['fex'] %}
+- parents:
+  - fex {{ vars['fex'][entry]['number'] }}
+  lines:
+  {% if 'pinning' in vars['fex'][entry] -%}
+  - '  pinning {{ vars['fex'][entry]['pinning']['type'] }} {{ vars['fex'][entry]['pinning']['links'] }}'
+  {% endif -%}
+  {% if 'description' in vars['fex'][entry] -%}
+  - '  description "{{ vars['fex'][entry]['description'] }}"'
+  {% endif -%}
+{% endfor %}
+{% endif -%}
