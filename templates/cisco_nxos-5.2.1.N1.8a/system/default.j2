@@ -1,0 +1,12 @@
+{% if 'system' in vars -%}
+{% for entry in vars['system'] -%}
+- parents:
+  - system {{ vars['system'][entry]['name'] }}
+  lines:
+  {% if 'service_policies' in vars['system'][entry] -%}
+  {% for policy in vars['system'][entry]['service_policies'] -%}
+  - '  service-policy type {{ vars['system'][entry]['service_policies'][policy]['type'] }} {{ vars['system'][entry]['service_policies'][policy]['name'] }}'
+  {% endfor -%}
+  {% endif -%}
+{% endfor %}
+{% endif -%}

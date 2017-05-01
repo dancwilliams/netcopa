@@ -1,0 +1,7 @@
+{% if 'recovery' in vars['errdisable'] -%}
+{% for entry in vars['errdisable']['recovery'] -%}
+- parents:
+  lines:
+  - 'errdisable recovery cause {{ entry['cause'] }}'
+{% endfor -%}
+{% endif %}

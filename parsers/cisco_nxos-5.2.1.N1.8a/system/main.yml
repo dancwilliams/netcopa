@@ -1,0 +1,30 @@
+- name: system
+  tags:
+  - system
+  matches:
+  - name: system
+    template: system/default.j2
+    lines:
+    - regex: '^system (\S+)$'
+      examples:
+      - 'system qos'
+      captures:
+      - system_type
+      path:
+        system:
+          "{{ system_type }}":
+            name: "{{ system_type }}"
+      lines:
+      - regex: '^  service-policy type (\S+) (\S+)$'
+        examples:
+        - '  service-policy type network-qos ge-nq-policy'
+        captures:
+        - service_policy_type
+        - service_policy_name
+        path:
+          system:
+            "{{ system_type }}":
+              service_policies:
+                "{{ service_policy_name }}":
+                  name: "{{ service_policy_name }}"
+                  type: "{{ service_policy_type }}"

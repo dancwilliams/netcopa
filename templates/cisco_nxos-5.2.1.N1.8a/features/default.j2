@@ -1,0 +1,7 @@
+{% if 'enable' in vars['feature'] -%}
+{% for entry in vars['feature']['enable'] -%}
+- parents:
+  lines:
+  - feature {{ entry['feature_name'] }}
+{% endfor %}
+{% endif %}

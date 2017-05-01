@@ -1,0 +1,28 @@
+- name: feature-sets
+  tags:
+  - feature-set
+  matches:
+  - name: install feature-set
+    template: feature-sets/install-feature-set.j2
+    lines:
+    - regex: '^install feature-set (\S+)$'
+      examples:
+      - 'install feature-set fabricpath'
+      captures:
+      - feature_set_name
+      path:
+        feature_set:
+          install: 
+          - feature_set_name: "{{ feature_set_name }}"
+  - name: enabled feature-set
+    template: feature-sets/enable-feature-set.j2
+    lines:
+    - regex: '^feature-set (\S+)$'
+      examples:
+      - 'feature-set fabricpath'
+      captures:
+      - feature_set_name
+      path:
+        feature_set:
+          enabled:
+          - feature_set_name: "{{ feature_set_name }}"

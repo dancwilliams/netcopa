@@ -1,0 +1,7 @@
+{% if 'install' in vars['feature_set'] -%}
+{% for entry in vars['feature_set']['install'] -%}
+- parents:
+  lines:
+  - install feature-set {{ entry['feature_set_name'] }}
+{% endfor -%}
+{% endif %}

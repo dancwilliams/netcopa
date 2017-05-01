@@ -1,0 +1,16 @@
+- name: errdisable
+  tags:
+  - logging
+  matches:
+  - name: errdisable recovery
+    template: errdisable/recovery.j2
+    lines:
+    - regex: '^errdisable recovery cause (\S+)$'
+      examples:
+      - 'errdisable recovery cause link-flap'
+      captures:
+      - cause
+      path:
+        errdisable:
+          recovery:
+          - cause: "{{ cause }}"

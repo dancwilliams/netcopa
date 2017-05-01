@@ -1,0 +1,7 @@
+- parents:
+  lines:
+  {% if 'enabled' in vars['feature_set'] -%}
+  {% for entry in vars['feature_set']['enabled'] -%}
+  - feature-set {{ entry['feature_set_name'] }}
+  {%   endfor -%}
+  {% endif %}

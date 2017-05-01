@@ -1,0 +1,29 @@
+- name: features
+  tags:
+  - feature
+  matches:
+  - name: enable features tacacs+ and/or telnet before cfs
+    template: features/default.j2
+    lines:
+    - regex: '^feature (\S+)$'
+      examples:
+      - 'feature telnet'
+      captures:
+      - feature_name
+      path:
+        feature:
+          enable: 
+          - feature_name: "{{ feature_name }}"
+  - name: enabled cfs
+    template: features/enable-cfs.j2
+    lines:
+    - regex: '^cfs (\S+) distribute$'
+      examples:
+      - 'cfs eth distribute'
+      captures:
+      - cfs_method
+      path:
+        feature:
+          cfs:
+            method: "{{ cfs_method }}"
+  

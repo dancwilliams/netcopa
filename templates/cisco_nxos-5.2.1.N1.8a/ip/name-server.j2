@@ -1,0 +1,9 @@
+- parents:
+  lines:
+  {% for name_server in vars['ip']['name-servers'] -%}
+  {% if 'name_server_vrf' in name_server -%}
+  - 'ip name-server {{ name_server['name_server'] }} use-vrf {{ name_server['name_server_vrf'] }}'
+  {% else -%}
+  - 'ip name-server {{ name_server['name_server'] }}'
+  {% endif -%}
+  {% endfor -%}

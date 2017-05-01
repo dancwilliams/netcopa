@@ -1,0 +1,7 @@
+- parents:
+  lines:
+  {% if 'cfs' in vars['feature'] -%}
+  {% if 'method' in vars['feature']['cfs'] -%}
+  - cfs {{ vars['feature']['cfs']['method'] }} distribute
+  {% endif -%}
+  {% endif %}

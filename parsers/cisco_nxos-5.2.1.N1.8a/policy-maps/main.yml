@@ -1,0 +1,142 @@
+- name: policy-map
+  tags:
+  - policy-map
+  matches:
+  - name: policy-map
+    template: policy-maps/default.j2
+    lines:
+    - regex: '^policy-map type (\S+) (\S+)$'
+      examples:
+      - 'policy-map type network-qos ge-nq-policy'
+      captures:
+      - policy_type
+      - policy_name
+      path:
+        policy_maps:
+          "{{ policy_name }}":
+            name: "{{ policy_name }}"
+            type: "{{ policy_type }}"
+      lines:
+      - regex: '^  class\s?(type)?\s?(\S+)?\s(\S+)$'
+        examples:
+        - '  class copp-system-class-default'
+        captures:
+        - type_holder
+        - class_type
+        - class_name
+        path:
+          policy_maps:
+            "{{ policy_name }}":
+              sequence:
+              - "{{ class_name }}"
+              classes:
+                "{{ class_name }}":
+                  name: "{{ class_name }}"
+                  type: "{{ class_type }}"
+        lines:
+        - regex: '^\s+set dscp (\S+)$'
+          examples:
+          - '  set dscp ef'
+          captures:
+          - set_ipv4_ipv6_dscp_value
+          path:
+            policy_maps:
+              "{{ policy_name }}":
+                classes:
+                  "{{ class_name }}":
+                    set_ipv4_ipv6_dscp: "{{ set_ipv4_ipv6_dscp_value }}"
+        - regex: '^\s+set ip dscp (\S+)$'
+          examples:
+          - '  set ip dscp af21'
+          captures:
+          - set_ipv4_dscp_value
+          path:
+            policy_maps:
+              "{{ policy_name }}":
+                classes:
+                  "{{ class_name }}":
+                    set_ipv4_dscp: "{{ set_ipv4_dscp_value }}"
+        - regex: '^\s+priority percent (\d+)$'
+          examples:
+          - '  priority percent 3'
+          captures:
+          - priority_percent
+          path:
+            policy_maps:
+              "{{ policy_name }}":
+                classes:
+                  "{{ class_name }}":
+                    priority:
+                      percent: "{{ priority_percent }}"
+        - regex: '^\s+bandwidth percent (\d+)$'
+          examples:
+          - '  bandwidth percent 5'
+          captures:
+          - bandwidth_percent
+          path:
+            policy_maps:
+              "{{ policy_name }}":
+                classes:
+                  "{{ class_name }}":
+                    bandwidth:
+                      percent: "{{ bandwidth_percent }}"
+        - regex: '^\s+shape (average|peak) (\d+)$'
+          examples:
+          - '  shape average 26214400'
+          captures:
+          - token_bucket
+          - mean_rate
+          path:
+            policy_maps:
+              "{{ policy_name }}":
+                classes:
+                  "{{ class_name }}":
+                    shape:
+                      threshold: "{{ token_bucket }}"
+                      mean_rate: "{{ mean_rate }}"
+        - regex: '^\s+service-policy (\S+)$'
+          examples:
+          - '  service-policy global-na-wan-25mbs'
+          captures:
+          - service_policy_name
+          path:
+            policy_maps:
+              "{{ policy_name }}":
+                classes:
+                  "{{ class_name }}":
+                    shape:
+                      service_policy: "{{ service_policy_name }}"
+        - regex: '^\s+mtu (\S+)$'
+          examples:
+          - '    mtu 9216'
+          captures:
+          - mtu_size
+          path:
+            policy_maps:
+              "{{ policy_name }}":
+                classes:
+                  "{{ class_name }}":
+                    mtu_size: "{{ mtu_size }}"
+        - regex: '^\s+multicast-optimize$'
+          examples:
+          - '    multicast-optimize'
+          path:
+            policy_maps:
+              "{{ policy_name }}":
+                classes:
+                  "{{ class_name }}":
+                    multicast_optimize: True
+        - regex: '^\s+police cir (\d+) kbps bc (\d+) bytes$'
+          examples:
+          - '    police cir 2048 kbps bc 6400000 bytes'
+          captures:
+          - cir
+          - bc
+          path:
+            policy_maps:
+              "{{ policy_name }}":
+                classes:
+                  "{{ class_name }}":
+                    police:
+                      cir: "{{ cir }}"
+                      bc: "{{ bc }}"
