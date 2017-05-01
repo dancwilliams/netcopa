@@ -1,0 +1,216 @@
+os: cisco_nxos-5.2.1.N1.8a
+vars:
+  aaa:
+    groups:
+      TACACS:
+        forwarding_vrf: management
+        name: TACACS
+        servers:
+        - ip: 192.168.1.101
+        - ip: 192.168.1.102
+        type: tacacs+
+  banner:
+    motd:
+      delimeter: '#'
+      text:
+      - ''
+      - '|'
+      - '|  TEST BANNER'
+      - '|'
+      - ''
+      - =======================================================================
+      - '|                                                                     |'
+      - '| The equipment now being accessed and information available through  |'
+      - '| this equipment is confidential and proprietary. It may be accessed  |'
+      - '| or used only as specifically authorized. All other access or use    |'
+      - '| is prohibited and is subject to legal action!                       |'
+      - '|                                                                     |'
+      - =======================================================================
+  errdisable:
+    recovery:
+    - cause: link-flap
+    - cause: udld
+    - cause: bpduguard
+    - cause: psecure-violation
+    - cause: pause-rate-limit
+  feature:
+    cfs:
+      method: eth
+    enable:
+    - feature_name: telnet
+    - feature_name: tacacs+
+    - feature_name: private-vlan
+    - feature_name: udld
+    - feature_name: lacp
+    - feature_name: vpc
+    - feature_name: lldp
+    - feature_name: fex
+  feature_set:
+    enabled:
+    - feature_set_name: fabricpath
+    install:
+    - feature_set_name: fabricpath
+  hostname: TestNexus5K
+  ip:
+    access_lists:
+      Random_Hosts:
+        entries:
+        - remark: Random Hosts
+          sequence: '10'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '20'
+          source_network: 192.168.1.103
+          source_wildcard: '32'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '30'
+          source_network: 192.168.1.104
+          source_wildcard: '32'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '40'
+          source_network: 192.168.1.105
+          source_wildcard: '32'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '50'
+          source_network: 192.168.1.106
+          source_wildcard: '32'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '60'
+          source_network: 192.168.1.107
+          source_wildcard: '32'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '70'
+          source_network: 192.168.1.155
+          source_wildcard: '32'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '80'
+          source_network: 192.168.1.156
+          source_wildcard: '32'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '90'
+          source_network: 192.168.1.157
+          source_wildcard: '32'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '100'
+          source_network: 192.168.1.158
+          source_wildcard: '32'
+        name: Random_Hosts
+      Random_Networks:
+        entries:
+        - remark: Random Networks
+          sequence: '10'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '20'
+          source_network: 192.168.1.0
+          source_wildcard: '24'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '30'
+          source_network: 192.168.2.0
+          source_wildcard: '24'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '40'
+          source_network: 192.168.3.0
+          source_wildcard: '24'
+        - action: permit
+          destination_network: 0.0.0.0
+          destination_wildcard: 255.255.255.255
+          protocol: ip
+          sequence: '50'
+          source_network: 192.168.4.0
+          source_wildcard: '24'
+        name: Random_Networks
+    domain_lookup: true
+    domain_names:
+    - domain_name: test.domain.com
+    name-servers:
+    - name_server: 192.35.38.103
+      name_server_vrf: management
+  logging:
+    events:
+    - level: default
+      type: link-status
+    levels:
+    - level: 0
+      type: feature-mgr
+  password-strength-check:
+    negate: true
+  policy_maps:
+    copp-system-policy-customized:
+      classes:
+        copp-system-class-default:
+          name: copp-system-class-default
+          police:
+            bc: 6400000
+            cir: 2048
+          type: 0
+      name: copp-system-policy-customized
+      sequence:
+      - copp-system-class-default
+      type: control-plane
+    random-nq-policy:
+      classes:
+        class-default:
+          mtu_size: 9216
+          multicast_optimize: true
+          name: class-default
+          type: network-qos
+      name: random-nq-policy
+      sequence:
+      - class-default
+      type: network-qos
+  system:
+    qos:
+      name: qos
+      service_policies:
+        random-nq-policy:
+          name: random-nq-policy
+          type: network-qos
+  tacacs_server:
+    hosts:
+    - encryption_type: 7
+      ip: 192.168.1.132
+      password: AAAAAAAAAAA
+    - encryption_type: 7
+      ip: 192.168.1.102
+      password: BBBBBBBBBBB
+  usernames:
+  - encryption_type: 5
+    password: $AAAAAAABBBBBBBBBBBBB!SDSDSDSD/
+    role: network-admin
+    username: admin
+  version: 5.2(1)N1(8a)
